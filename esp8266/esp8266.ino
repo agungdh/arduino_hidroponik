@@ -1,27 +1,22 @@
-#include <Arduino.h>
-// #include <dummy.h>
+#include <SoftwareSerial.h>
+#include <ESP8266WiFi.h>
 
-bool onoff = true;
+SoftwareSerial NodeMCU(D2,D3);
 
-void led() {
-  if (!onoff) {
-    digitalWrite(LED_BUILTIN, HIGH);
-  } else {
-    digitalWrite(LED_BUILTIN, LOW);
-  }
+void setup(){
+	Serial.begin(9600);
+	NodeMCU.begin(4800);
+	pinMode(D2,INPUT);
+	pinMode(D3,OUTPUT);
 }
 
-void setup() {
-  pinMode(LED_BUILTIN, OUTPUT);
-
-  led();
-
-  Serial.begin(115200);
-}
-
-void loop() {
-	Serial.println("ledon");
-	delay(1000);
-	Serial.println("ledoff");
-	delay(1000);
+void loop(){
+	while(NodeMCU.available()>0){
+		float val = NodeMCU.parseFloat();
+		if(NodeMCU.read()== '\n'){
+			Serial.println(val);
+		}
+	}
+	
+	delay(30);
 }
