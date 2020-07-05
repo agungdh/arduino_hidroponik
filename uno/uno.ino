@@ -49,13 +49,16 @@ void loop() {
 				gravityTds.update();
 				tdsValue = gravityTds.getTdsValue();
 				ArduinoUno.print("tds:");
-				ArduinoUno.println(tdsValue,2);
+				ArduinoUno.print(tdsValue,2);
+				ArduinoUno.println("\n");
 	    	} else if (rx_str == "ledcek") {
 				ArduinoUno.print("led:");
 				if (onoff) {
-					ArduinoUno.println("1");
+					ArduinoUno.print("1");
+					ArduinoUno.println("\n");
 			    } else {
-					ArduinoUno.println("0");
+					ArduinoUno.print("0");
+					ArduinoUno.println("\n");
 			    }
 	    	} else if (rx_str == "ledon") {
     			onoff = true;
@@ -68,12 +71,11 @@ void loop() {
 	    		temp = rx_str.substring(7);
 	    		gravityTds.customCalibrate(temp.toFloat());
 	    	} else {
-      			ArduinoUno.println(rx_str);
+      			ArduinoUno.print(rx_str);
+				ArduinoUno.println("\n");
 	    	}
 
 	      rx_str = "";
 	    }
 	}
-
-	delay(30);
 }
