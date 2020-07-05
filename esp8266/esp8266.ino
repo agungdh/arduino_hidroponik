@@ -48,26 +48,36 @@ void setup() {
 	Serial.println("WiFi Connected");
 	Serial.println(WiFi.localIP());
 
-	server.on("/on", []() {
-		NodeMCU.println("ledon\n");
+	server.on("/tds", []() {
+		while(NodeMCU.available()>0){
+			NodeMCU.println("tds\n");
 
-		Serial.print(NodeMCU.readString());
-		if(NodeMCU.read()== '\n'){
-			Serial.print("\n");
+			server.send(200, "text/html", NodeMCU.readString());
 		}
+	});
 
-		server.send(200, "text/html", "");
+	server.on("/cek", []() {
+		while(NodeMCU.available()>0){
+			NodeMCU.println("ledcek\n");
+
+			server.send(200, "text/html", NodeMCU.readString());
+		}
+	});
+
+	server.on("/on", []() {
+		while(NodeMCU.available()>0){
+			NodeMCU.println("ledon\n");
+
+			server.send(200, "text/html", "");
+		}
 	});
 
 	server.on("/off", []() {
-		NodeMCU.println("ledoff\n");
-		
-		Serial.print(NodeMCU.readString());
-		if(NodeMCU.read()== '\n'){
-			Serial.print("\n");
-		}
+		while(NodeMCU.available()>0){
+			NodeMCU.println("ledoff\n");
 
-		server.send(200, "text/html", "");
+			server.send(200, "text/html", "");
+		}
 	});
 
 	server.begin();
